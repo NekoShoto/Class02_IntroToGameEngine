@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class health : MonoBehaviour
 {
     [SerializeField] int currentHealth = 0;
     [SerializeField] int maxHealth = 5;
+
+    [SerializeField] bool isPlayer;
+    [SerializeField] List<Image> images = new List<Image>();
 
 
     // Start is called before the first frame update
@@ -17,7 +21,14 @@ public class health : MonoBehaviour
     public void LoseHealth(int damage)
     {
         currentHealth -= damage;
-        //todo add sound and gameplay logic to death
+
+        if (isPlayer)
+        {
+            if (currentHealth >= 0)
+            {
+                images[currentHealth].gameObject.SetActive(false);
+            }
+        }
     }
 
 

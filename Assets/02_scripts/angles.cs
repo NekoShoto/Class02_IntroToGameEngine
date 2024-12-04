@@ -4,58 +4,42 @@ using UnityEngine;
 
 public class angles : MonoBehaviour
 {
-    private Rigidbody rigidBdy;
+    [Header("Rotation Settings")]
+    public float maxRotationAngleZ= 30f; // Maximale Rotationswinkel in Grad
+    public float maxRotationAngleX = 30f;
+    public float rotationSpeed = 5f; // Wie schnell das Raumschiff rotiert
+    public float returnSpeed = 3f; // Geschwindigkeit, mit der das Raumschiff zurück rotiert
 
-    [SerializeField] private float cooldown;
-    private bool isCoolDownReady = true;
+    private Vector3 targetRotation; // Zielrotation
 
-    [Header("Limit Rot")]
-    public float maxZRot = 45f;
-    public float minZRot = -45f;
-    public float amount = 40f;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        rigidBdy = GetComponent<Rigidbody>();
-    }
-
-    // Update is called once per frame
     void Update()
     {
+        // Input-Werte (Horizontal und Vertical) abfragen
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
 
-        float h = Input.GetAxis("Horizontal");
+        // Zielrotation basierend auf Input berechnen
+        float targetYaw = horizontalInput * maxRotationAngleZ; // Links/Rechts-Rotation
+        float targetPitch = -verticalInput * maxRotationAngleX; // Hoch/Runter-Rotation
 
-        rigidBdy.AddTorque(transform.forward * h * amount);
+        targetRotation = new Vector3(targetPitch, 0f, -targetYaw);
 
-        LimitRot();
-    }
+        // Interpolierte Rotation (weiches Bewegen zum Ziel)
+        Quaternion targetQuaternion = Quaternion.Euler(targetRotation);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetQuaternion, Time.deltaTime * rotationSpeed);
 
-    private void LimitRot()
-    {
-        Vector3 playerEulerAngles = transform.rotation.eulerAngles;
-
-        playerEulerAngles.z = (playerEulerAngles.z > 180) ? playerEulerAngles.z - 360 : playerEulerAngles.z;
-        playerEulerAngles.z = Mathf.Clamp(playerEulerAngles.z, minZRot, maxZRot);
-
-        GetComponent<Transform>().rotation = Quaternion.Euler(playerEulerAngles);
-    }
-
-    /*void MakeRotation0()
-    {
-        if (isCoolDownReady)
+        // Wenn kein Input, langsam zurückdrehen
+        if (Mathf.Approximately(horizontalInput, 0) && Mathf.Approximately(verticalInput, 0))
         {
-            object value = transform.localRotation(0f,0f,0f);
-            isCoolDownReady = false;
-            //TODO: Add MuzzleVFX and SFX
-            StartCoroutine("ResetCooldown");
+            ResetRotation();
         }
     }
 
-    public IEnumerator ResetCooldown()
+    private void ResetRotation()
     {
-        yield return new WaitForSeconds(cooldown);
-        isCoolDownReady = true;
-        yield return null;
-    }*/
+        // Raumschiff zur Null-Position zurückdrehen
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.identity, Time.deltaTime * returnSpeed);
+    }
+
+
 }

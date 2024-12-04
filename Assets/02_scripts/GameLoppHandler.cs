@@ -50,11 +50,11 @@ public class GameLoppHandler : MonoBehaviour
 
     public void RealoadLevel()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Level1");
     }
 
     public void BackToMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("01_MainMenu");
     }
 }

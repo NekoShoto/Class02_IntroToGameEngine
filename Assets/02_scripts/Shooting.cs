@@ -6,7 +6,9 @@ public class Shooting : MonoBehaviour
 {
     [SerializeField] GameObject bulletToSpawn;
     [SerializeField] Transform muzleLocation;
+    [SerializeField] Transform muzleLocation2;
     [SerializeField] private float cooldown;
+    [SerializeField] AudioSource pewpew;
 
     private bool isCoolDownReady = true;
 
@@ -32,7 +34,10 @@ public class Shooting : MonoBehaviour
         if (isCoolDownReady)
         {
             Instantiate(bulletToSpawn, muzleLocation.position, muzleLocation.rotation);
+            Instantiate(bulletToSpawn, muzleLocation2.position, muzleLocation.rotation);
             isCoolDownReady = false;
+
+            pewpew.Play();
             //TODO: Add MuzzleVFX and SFX
             StartCoroutine("ResetCooldown");
         }

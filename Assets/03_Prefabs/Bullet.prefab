@@ -122,8 +122,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 492dc50384a96e24bbabadb3b6a6eb3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 15
+  movementSpeed: 150
   damage: 1
+  vfxToSpawn: {fileID: 0}
 --- !u!114 &7806236795842951205
 MonoBehaviour:
   m_ObjectHideFlags: 0

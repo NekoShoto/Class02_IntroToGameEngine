@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 150
-  damage: 1
+  damage: 2
   vfxToSpawn: {fileID: 0}
 --- !u!114 &7806236795842951205
 MonoBehaviour:

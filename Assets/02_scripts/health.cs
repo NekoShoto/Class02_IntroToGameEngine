@@ -11,14 +11,18 @@ public class Health : MonoBehaviour
     [SerializeField] public bool isPlayer;
     [SerializeField] List<Image> images = new List<Image>();
 
-    AudioSource hitSound;
+    [SerializeField] AudioSource hitSound;
 
     GameLoppHandler gameLoppHandler;
 
     // Start is called before the first frame update
     void Start()
     {
-        hitSound = GetComponent<AudioSource>();
+        if (!isPlayer)
+        {
+            hitSound = GetComponent<AudioSource>();
+        }
+        
         gameLoppHandler = GameObject.Find("GameLoppHandler").GetComponent<GameLoppHandler>();
         gameLoppHandler.StartGame();
         currentHealth = maxHealth;

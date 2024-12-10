@@ -45,7 +45,7 @@ public class Health : MonoBehaviour
         }
         else
         {
-            if (currentHealth >= 0)
+            if (currentHealth <= 0)
             {
                 Destroy(this.gameObject);
             }
